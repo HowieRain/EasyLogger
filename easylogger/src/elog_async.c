@@ -28,6 +28,7 @@
 
 #include <elog.h>
 #include <string.h>
+#include "include.h"
 
 #ifdef ELOG_ASYNC_OUTPUT_ENABLE
 
@@ -313,6 +314,10 @@ static void *async_output(void *arg) {
         }
     }
     return NULL;
+}
+#else
+void elog_async_output_notice(void) {
+    tx_mutex_put(&mutex_ELogAsync);
 }
 #endif
 

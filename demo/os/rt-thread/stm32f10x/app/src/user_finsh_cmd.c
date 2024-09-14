@@ -1,7 +1,7 @@
 /*
  * user_finsh_cmd.c
  *
- *  Created on: 2013Äê12ÔÂ7ÈÕ
+ *  Created on: 2013Ã„Ãª12Ã”Ã‚7ÃˆÃ•
  *      Author: Armink
  */
 #include <rthw.h>

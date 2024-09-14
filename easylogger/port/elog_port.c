@@ -26,7 +26,13 @@
  * Created on: 2015-04-28
  */
  
+#if !defined(LOG_TAG)
+    #define LOG_TAG          "ELOG_PORT"
+#endif
+
 #include <elog.h>
+#include <stdio.h>
+#include "include.h"
 
 /**
  * EasyLogger port initialize
@@ -37,7 +43,7 @@ ElogErrCode elog_port_init(void) {
     ElogErrCode result = ELOG_NO_ERR;
 
     /* add your code here */
-    
+        
     return result;
 }
 
@@ -48,18 +54,6 @@ ElogErrCode elog_port_init(void) {
 void elog_port_deinit(void) {
 
     /* add your code here */
-
-}
-
-/**
- * output log port interface
- *
- * @param log output of log
- * @param size log size
- */
-void elog_port_output(const char *log, size_t size) {
-    
-    /* add your code here */
     
 }
 
@@ -68,8 +62,7 @@ void elog_port_output(const char *log, size_t size) {
  */
 void elog_port_output_lock(void) {
     
-    /* add your code here */
-    
+    tx_mutex_get(&mutex_ELogLock, TX_WAIT_FOREVER);
 }
 
 /**
@@ -77,8 +70,7 @@ void elog_port_output_lock(void) {
  */
 void elog_port_output_unlock(void) {
     
-    /* add your code here */
-    
+    tx_mutex_put(&mutex_ELogLock);
 }
 
 /**
@@ -87,9 +79,11 @@ void elog_port_output_unlock(void) {
  * @return current time
  */
 const char *elog_port_get_time(void) {
-    
+    extern uint32_t HAL_GetTick(void);
     /* add your code here */
-    
+    static char curTime[16] = "";
+    snprintf(curTime, 16, "%u", HAL_GetTick());
+    return curTime;
 }
 
 /**
@@ -100,7 +94,9 @@ const char *elog_port_get_time(void) {
 const char *elog_port_get_p_info(void) {
     
     /* add your code here */
+    static char pInfo[] = "--pInfo--";
     
+    return pInfo;
 }
 
 /**
@@ -111,5 +107,7 @@ const char *elog_port_get_p_info(void) {
 const char *elog_port_get_t_info(void) {
     
     /* add your code here */
+    static char tInfo[] = "--tInfo--";
     
+    return tInfo;
 }

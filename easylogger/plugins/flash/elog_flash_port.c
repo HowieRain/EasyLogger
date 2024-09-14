@@ -27,6 +27,7 @@
  */
 
 #include "elog_flash.h"
+#include "include.h"
 
 /**
  * EasyLogger flash log pulgin port initialize
@@ -50,7 +51,8 @@ ElogErrCode elog_flash_port_init(void) {
 void elog_flash_port_output(const char *log, size_t size) {
     
     /* add your code here */
-    
+    extern void elog_async_output(uint8_t level, const char *log, size_t size);
+    elog_async_output(ELOG_LVL_INFO, log, size);
 }
 
 /**
@@ -59,7 +61,7 @@ void elog_flash_port_output(const char *log, size_t size) {
 void elog_flash_port_lock(void) {
     
     /* add your code here */
-    
+    tx_mutex_get(&mutex_ELogToFlashLock, TX_WAIT_FOREVER);
 }
 
 /**
@@ -68,5 +70,5 @@ void elog_flash_port_lock(void) {
 void elog_flash_port_unlock(void) {
     
     /* add your code here */
-    
+    tx_mutex_put(&mutex_ELogToFlashLock);
 }
